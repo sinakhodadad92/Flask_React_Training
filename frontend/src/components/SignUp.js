@@ -1,25 +1,19 @@
 import React, {useState} from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, CloseButton, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const SignUp = () => {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    
-    const submitForm = () => {
-        console.log("Form submitted")
-        console.log(username)
-        console.log(email)
-        console.log(password)
-        console.log(confirmPassword)
-        
-        setEmail("");
-        setUsername("");
-        setPassword("");
-        setConfirmPassword("");
+    const { register, handleSubmit, watch, reset, formState:{errors} } = useForm();
+    const submitForm = (data) => {
+        console.log(data)
+        reset()
     }
+
+    console.log(watch("username"))
+    console.log(watch("email"))
+    console.log(watch("password"))
+    console.log(watch("confirmPassword"))
 
     return (
         <div className="container">
@@ -28,26 +22,42 @@ const SignUp = () => {
                 <form>
                     <Form.Group>
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Enter username" value={username} name="username" onChange={(e) => {setUsername(e.target.value)}}/>
+                        <Form.Control type="text" placeholder="Enter username" {...register("username", {required:true, maxLength:25})}></Form.Control>
+                        <br />
+                        {errors.username && <span style={{color: "red"}}>Username is required</span>}
+                        <br />
+                        {errors.username?.type === "maxLength" && <span style={{color: "red"}}>Username is too long</span>}
                     </Form.Group>
-                    <br />
+                   
                     <Form.Group>
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" value={email} name="email" onChange={(e) => {setEmail(e.target.value)}}/>
+                        <Form.Control type="email" placeholder="Enter email" {...register("email", {required:true, maxLength:80})}></Form.Control>
+                        <br />
+                        {errors.email && <span style={{color: "red"}}>Email is required</span>}
+                        <br />
+                        {errors.email?.type === "maxLength" && <span style={{color: "red"}}>Email is too long</span>}
                     </Form.Group>
-                    <br />
+                
                     <Form.Group>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} name="password" onChange={(e) => {setPassword(e.target.value)}}/>
+                        <Form.Control type="password" placeholder="Password" {...register("password", {required:true, minLength:8})}></Form.Control>
+                        <br />
+                        {errors.email && <span style={{color: "red"}}>Email is required</span>}
+                        <br />
+                        {errors.password?.type === "minLength" && <span style={{color: "red"}}>Min length is 8</span>}
                     </Form.Group>
-                    <br />
+                    
                     <Form.Group>
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm password" value={confirmPassword} name="confirmPassword" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
+                        <Form.Control type="password" placeholder="Confirm password" {...register("confirmPassword", {required:true, minLength:8})}></Form.Control>
+                        <br />
+                        {errors.email && <span style={{color: "red"}}>Email is required</span>}
+                        <br />
+                        {errors.password?.type === "minLength" && <span style={{color: "red"}}>Min length is 8</span>}
                     </Form.Group>
-                    <br />
+                    
                     <Form.Group>
-                        <Button as="sub" variant="primary" type="submit" onClick={submitForm}>Sign Up</Button>
+                        <Button as="sub" variant="primary" type="submit" onClick={handleSubmit(submitForm)}>Sign Up</Button>
                     </Form.Group>
                     <br />
                     <Form.Group>

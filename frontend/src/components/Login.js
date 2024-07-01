@@ -2,10 +2,13 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const { register, handleSubmit, watch, formState:{errors} } = useForm();
 
     const submitForm = () => {
         console.log("User Logged in")
