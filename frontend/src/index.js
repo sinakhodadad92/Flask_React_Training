@@ -1,4 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/main.css';
+
 import React from 'react';
 import { createRoot } from "react-dom/client";
 import NavBar from './components/Navbar'; 
@@ -17,7 +19,7 @@ const root = createRoot(rootElement);
 const App = () => {
   return (
     <Router>
-      <div className='container'>
+      <div className=''>
         <NavBar />
         <Routes>
           <Route path='/' element={<Home />}></Route>
