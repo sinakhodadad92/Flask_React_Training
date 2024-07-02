@@ -1,10 +1,13 @@
 import React, {useState} from "react";
-import { Button, CloseButton, Form } from "react-bootstrap";
+import { Button, Alert, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 
 const SignUp = () => {
-    const { register, handleSubmit, watch, reset, formState:{errors} } = useForm();
+    const [show, setShow] = useState(false);
+    const [serverResponse, setServerResponse] = useState("");
+
+    const { register, handleSubmit, reset, formState:{errors} } = useForm();
     const submitForm = (data) => {
         console.log(data)
         if (data.password === data.confirmPassword) {
@@ -22,6 +25,9 @@ const SignUp = () => {
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
+                    setServerResponse(data.message)
+                    console.log(serverResponse)
+                    setShow(true)
                 })
                 .catch(error => {
                     console.error("There was an error", error)
@@ -36,7 +42,13 @@ const SignUp = () => {
     return (
         <div className="container">
             <div className="form">
+                {show && (
+                <Alert variant="success" onClose={() => setShow(false)} dismissible>
+                    <p>{serverResponse}</p>
+                </Alert>
+                )}
                 <h1>Sign Up</h1>
+                <br />
                 <form>
                     <Form.Group>
                         <Form.Label>Username</Form.Label>
